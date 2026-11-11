@@ -27,7 +27,9 @@ Declared in `manifest.json` `host.networkOrigins`, tried in order, first HTTP 20
 2. https://ipfs.io
 3. https://dweb.link
 
-The host requires exact origins, so subdomain gateways (`<cid>.ipfs.dweb.link`) and FilBeam's per-wallet hosts cannot be declared. The host also sends no request headers and follows no redirects (`src-tauri/src/host_request.rs`, `read_bytes` / `plugin_host_request_bytes`), so the format goes in the query string and a gateway that 301s to another host counts as a failure.
+The host requires exact origins, so subdomain gateways (`<cid>.ipfs.dweb.link`) and FilBeam's per-wallet hosts cannot be declared. The host also sends no request headers and follows no redirects (`src-tauri/src/host_request.rs` builds every reqwest client with `redirect::Policy::none()`, line 1006 for byte requests), so the format goes in the query string and a gateway that 301s to another host counts as a failure.
+
+As of 2026-11-10 that is every public gateway probed (`.review/gateway-probe.txt`): ipfs.io, dweb.link, w3s.link and nftstorage.link redirect trustless requests to trustless-gateway.link, and trustless-gateway.link itself answered Cloudflare 522 or timed out. The card then shows "could not fetch" with the last gateway's status. Fixing this needs either a gateway that serves `?format=raw` at its own origin or host support for same-host redirects.
 
 ## Install
 

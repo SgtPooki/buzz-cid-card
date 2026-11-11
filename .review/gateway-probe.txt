@@ -1,0 +1,44 @@
+# gateway probe 2026-11-11T03:42:19Z: GET <gw>/ipfs/bafybeihtf6w.../readme?format=raw, no headers, no redirects
+https://cloudflare-ipfs.com -> 000 loc= 0B ct=
+https://flk-ipfs.xyz -> 000 loc= 0B ct=
+https://gateway.pinata.cloud -> 000 loc= 0B ct=
+https://gw.ipfs-lens.dev -> 000 loc= 0B ct=
+https://hardbin.com -> 000 loc= 0B ct=
+https://ipfs.4everland.io -> 000 loc= 0B ct=
+https://ipfs.cf-ipfs.com -> 000 loc= 0B ct=
+https://ipfs.crossbell.io -> 000 loc= 0B ct=
+https://ipfs.cyou -> 000 loc= 0B ct=
+https://ipfs.decentralized-content.com -> 000 loc= 0B ct=
+https://ipfs.eth.aragon.network -> 000 loc= 0B ct=
+https://ipfs.filebase.io -> 000 loc= 0B ct=
+https://ipfs.infura.io -> 000 loc= 0B ct=
+https://ipfs.omnicloudstorage.com -> 000 loc= 0B ct=
+https://ipfs.runfission.com -> 000 loc= 0B ct=
+https://snapshot.4everland.link -> 000 loc= 0B ct=
+https://c4rex.co -> 200 loc= 0B ct=
+https://4everland.io -> 301 loc=https://bafybeihtf6wsy5dawxt3qvxibguzk7xbh2wnnf2ty2cu7qulzwwzglxnbe.ipfs.4everland.io/readme?format=raw 138B ct=text/html; charset=utf-8
+https://w3s.link -> 301 loc=https://dweb.link/ipfs/bafybeihtf6wsy5dawxt3qvxibguzk7xbh2wnnf2ty2cu7qulzwwzglxnbe/readme?format=raw 167B ct=text/html; charset=UTF-8
+https://gateway.ipfs.io -> 301 loc=https://ipfs.io/ipfs/bafybeihtf6wsy5dawxt3qvxibguzk7xbh2wnnf2ty2cu7qulzwwzglxnbe/readme?format=raw 167B ct=text/html; charset=UTF-8
+https://dweb.link -> 301 loc=https://trustless-gateway.link/ipfs/bafybeihtf6wsy5dawxt3qvxibguzk7xbh2wnnf2ty2cu7qulzwwzglxnbe/readme?format=raw 167B ct=text/html; charset=UTF-8
+https://ipfs.io -> 301 loc=https://trustless-gateway.link/ipfs/bafybeihtf6wsy5dawxt3qvxibguzk7xbh2wnnf2ty2cu7qulzwwzglxnbe/readme?format=raw 167B ct=text/html; charset=UTF-8
+https://nftstorage.link -> 302 loc=https://ipfs.io/ipfs/bafybeihtf6wsy5dawxt3qvxibguzk7xbh2wnnf2ty2cu7qulzwwzglxnbe/readme?format=raw 143B ct=text/html; charset=UTF-8
+https://gateway.lighthouse.storage -> 402 loc= 17B ct=application/octet-stream
+https://storry.tv -> 403 loc= 5586B ct=text/html; charset=UTF-8
+https://ipfs.jpu.jp -> 404 loc= 1627B ct=text/html; charset=UTF-8
+https://ipfs.ipns.io -> 404 loc= 37B ct=text/plain; charset=utf-8
+https://ipfs.greyh.at -> 500 loc= 165B ct=text/plain; charset=utf-8
+https://ipfs.fleek.co -> 522 loc= 16B ct=text/plain; charset=UTF-8
+https://trustless-gateway.link -> 522 loc= 7284B ct=text/html; charset=UTF-8
+# retries
+try 1 trustless-gateway.link -> 000 0B
+try 2 trustless-gateway.link -> 000 0B
+try 3 trustless-gateway.link -> 000 0B
+try 4 trustless-gateway.link -> 000 0B
+try 5 trustless-gateway.link -> 000 0B
+try 6 trustless-gateway.link -> 000 0B
+
+https://gateway.pinata.cloud -> 000 loc= 0B
+https://ipfs.filebase.io -> 000 loc= 0B
+https://ipfs.4everland.io -> 504 loc= 16B
+https://gateway.lighthouse.storage -> 402 loc= 17B
+
