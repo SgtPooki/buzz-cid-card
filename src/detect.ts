@@ -1,4 +1,5 @@
 import { CID } from 'multiformats/cid';
+import { sha256 } from 'multiformats/hashes/sha2';
 
 export type CidRef = { cid: CID; path: string; key: string };
 
@@ -18,7 +19,7 @@ export function findCids(text: string): CidRef[] {
   const out = new Map<string, CidRef>();
   for (const m of text.matchAll(RE)) {
     const cid = parseCid(m[1] ?? m[3] ?? m[5] ?? '');
-    if (!cid) continue;
+    if (!cid || cid.multihash.code !== sha256.code) continue; // only what we can verify
     const path = (m[2] ?? m[4] ?? '').replace(/[.,;:!?]+$/, '').replace(/\/+$/, '');
     const key = cid.toString() + path;
     if (!out.has(key)) out.set(key, { cid, path, key });

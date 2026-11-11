@@ -17,6 +17,7 @@ describe('findCids', () => {
     ['QmInvalidButRightLength0000000000000000000000000', []],
     ['https://example.com/ipfs/notacid', []],
     ['hello world', []],
+    ['piece bafkzcibd4qeqovohe3xhi64gdmc42cerqil6fv5le3oibdk5gk7dksh3irhd5dqn', []],
   ])('%s', (text, keys) => {
     expect(findCids(text).map((r) => r.key)).toEqual(keys);
   });
