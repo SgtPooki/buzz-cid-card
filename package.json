@@ -21,6 +21,6 @@
     "ipfs-unixfs": "^11.2.5",
     "typescript": "7.0.2",
     "vite": "8.2.2",
-    "vitest": "^3.2.7"
+    "vitest": "^4.1.11"
   }
 }
