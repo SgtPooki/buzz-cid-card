@@ -2,7 +2,7 @@ import { CID } from 'multiformats/cid';
 import { sha256 } from 'multiformats/hashes/sha2';
 
 export const PIECE_HASH = 0x1011; // fr32-sha256-trunc254-padbintree, Filecoin piece CID v2
-export type CidRef = { cid: CID; path: string; key: string; piece?: string };
+export type CidRef = { cid: CID; path: string; key: string; piece?: string; car?: string };
 
 // ipfs://<cid>[/path] | http(s)://host/ipfs/<cid>[/path] | https://<cid>.ipfs.host[/path] | bare CID
 const RE =
@@ -17,13 +17,14 @@ export function parseCid(text: string): CID | null {
 }
 
 // A piece's bytes live at <host>/public/<piece>; /piece/ redirects, which the host cannot follow.
-function pieceUrl(text: string, piece: string): string | undefined {
+function pieceUrl(text: string, piece = '[a-z2-7]{59,}'): string | undefined {
   const m = text.match(new RegExp(`https://[^\\s/]+/(?:piece|public)/${piece}`));
   return m?.[0].replace('/piece/', '/public/');
 }
 
 export function findCids(text: string): CidRef[] {
   const out = new Map<string, CidRef>();
+  const car = pieceUrl(text); // a seal card: the piece at this URL is a CAR holding the root CID's blocks
   for (const m of text.matchAll(RE)) {
     const cid = parseCid(m[1] ?? m[3] ?? m[5] ?? '');
     if (!cid) continue;
@@ -32,7 +33,8 @@ export function findCids(text: string): CidRef[] {
     const path = (m[2] ?? m[4] ?? '').replace(/[.,;:!?]+$/, '').replace(/\/+$/, '');
     const key = cid.toString() + path;
     if (out.has(key)) continue;
-    out.set(key, code === PIECE_HASH ? { cid, path: '', key, piece: pieceUrl(text, key) ?? '' } : { cid, path, key });
+    if (code === PIECE_HASH) out.set(key, { cid, path: '', key, piece: pieceUrl(text, key) ?? '' });
+    else out.set(key, car ? { cid, path, key, car } : { cid, path, key });
   }
   return [...out.values()];
 }

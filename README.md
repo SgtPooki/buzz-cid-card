@@ -7,6 +7,7 @@ A Buzz desktop plugin. Paste a CID, an `ipfs://` link or a gateway URL in any ch
 - Detects `ipfs://<cid>[/path]`, `https://<gateway>/ipfs/<cid>[/path]`, `https://<cid>.ipfs.<gateway>/…` and bare `bafy…` / `bafk…` / `Qm…` CIDs (decoded with `multiformats`, so look-alikes are ignored).
 - Renders the card as a message accessory (`registerAccessory`, `placement: "message"`) so the original message text stays. `registerLink` only relabels IPFS links; a link renderer sits inside the host anchor, so a card there would be a giant link.
 - Filecoin piece CIDs (`bafkzcib…`, CommP) get a card with copy and open; open uses the `/public/<piece>` form of the retrieval URL found in the same message, because `/piece/` redirects. No fetch or preview for pieces.
+- A seal line (`<rootCid> https://<host>/public/<piece>`) makes that piece CAR the block source for the root: fetched once, every block verified, then rendered as a normal card. Directory entries open a child card from the same CAR.
 - Fetches lazily: nothing is requested until the card scrolls into view.
 
 ## How verification works

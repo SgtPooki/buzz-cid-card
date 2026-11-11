@@ -27,6 +27,11 @@ describe('findCids', () => {
     expect(findCids(`saved ${PIECE} at https://calib.ezpdpz.net/piece/${PIECE}`)[0].piece).toBe(`https://calib.ezpdpz.net/public/${PIECE}`);
     expect(findCids(BAFY)[0].piece).toBeUndefined();
   });
+  it('pairs a root CID with the piece CAR URL in a seal line', () => {
+    const refs = findCids(`sealed ${BAFY} https://calib.ezpdpz.net/public/${PIECE}`);
+    expect(refs.map((r) => [r.key, r.car])).toEqual([[BAFY, `https://calib.ezpdpz.net/public/${PIECE}`]]);
+    expect(findCids(`just ${BAFY}`)[0].car).toBeUndefined();
+  });
   it('keeps the CID as a decoded object', () => {
     expect(findCids(QM)[0].cid.version).toBe(0);
   });

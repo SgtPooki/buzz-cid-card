@@ -1,6 +1,6 @@
 import type * as ReactNs from 'react';
 import type { CidRef } from './detect.js';
-import { GATEWAYS, MAX_BYTES, fetchCar, type RequestBytes } from './fetch.js';
+import { GATEWAYS, MAX_BYTES, fetchCar, fetchCarUrl, type Blocks, type RequestBytes } from './fetch.js';
 import { fileBytes, resolve, sniff, type Preview, type Resolved } from './content.js';
 import { findProviders, type RequestText } from './routing.js';
 
@@ -28,10 +28,11 @@ function download(bytes: Uint8Array, name: string) {
 }
 
 type Props = { item: CidRef; open?: (url: string) => boolean };
+type Source = { blocks: Blocks; gateway: string };
 
 export function makeCard(React: typeof ReactNs, request: RequestBytes, routing: RequestText): ReactNs.ComponentType<Props> {
   const h = React.createElement;
-  return function Card({ item, open }: Props) {
+  return function Card({ item, open }: Props): ReactNs.ReactElement {
     const { cid, path } = item;
     const ref = React.useRef<HTMLDivElement>(null);
     const [visible, setVisible] = React.useState(false);
@@ -51,19 +52,21 @@ export function makeCard(React: typeof ReactNs, request: RequestBytes, routing: 
 
     // Content providers from delegated routing first, declared public gateways as fallback.
     const sources = React.useRef<string[]>(GATEWAYS);
+    const car = item.car;
+    const fromCar = async (): Promise<Source> => ({ blocks: await fetchCarUrl(request, car!, cid), gateway: new URL(car!).host });
     React.useEffect(() => {
       if (!visible || item.piece !== undefined) return;
       let live = true;
       (async () => {
-        sources.current = [...await findProviders(routing, cid), ...GATEWAYS];
-        const head = await fetchCar(request, cid, path, 'block', 1024 * 1024, sources.current);
+        if (!car) sources.current = [...await findProviders(routing, cid), ...GATEWAYS];
+        const head = car ? await fromCar() : await fetchCar(request, cid, path, 'block', 1024 * 1024, sources.current);
         const resolved = await resolve(head.blocks, cid, path);
         if (!live) return;
         setMeta(resolved);
         setGateway(head.gateway);
         sources.current = [head.gateway, ...sources.current.filter((s) => s !== head.gateway)];
         if (resolved.kind !== 'file' || resolved.size > PREVIEW_MAX) return;
-        const full = await fetchCar(request, cid, path, 'entity', carCap(resolved.size), sources.current);
+        const full = car ? head : await fetchCar(request, cid, path, 'entity', carCap(resolved.size), sources.current);
         const data = await fileBytes(full.blocks, cid, path);
         if (!live) return;
         setBytes(data);
@@ -73,11 +76,13 @@ export function makeCard(React: typeof ReactNs, request: RequestBytes, routing: 
     }, [visible]);
 
     const name = path ? path.split('/').pop()! : cid.toString();
-    const gwUrl = item.piece !== undefined ? item.piece : `${gateway || GATEWAYS[0]}/ipfs/${cid}${path}`;
+    const gwUrl = item.piece !== undefined ? item.piece : car ? car : `${gateway || GATEWAYS[0]}/ipfs/${cid}${path}`;
+    const [child, setChild] = React.useState('');
+    const childItem: CidRef = { ...item, path: `${path}/${child}`, key: `${item.key}/${child}` };
     const copy = () => navigator.clipboard.writeText(cid.toString()).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1500); });
     const save = async () => {
       if (bytes) return download(bytes, name);
-      const full = await fetchCar(request, cid, path, 'entity', MAX_BYTES, sources.current);
+      const full = car ? await fromCar() : await fetchCar(request, cid, path, 'entity', MAX_BYTES, sources.current);
       download(await fileBytes(full.blocks, cid, path), name);
     };
     const openGw = (e: ReactNs.MouseEvent) => { if (open?.(gwUrl)) e.preventDefault(); };
@@ -97,16 +102,17 @@ export function makeCard(React: typeof ReactNs, request: RequestBytes, routing: 
       error && h('p', { role: 'alert', style: { margin: 0, color: 'var(--color-danger, red)' } }, mismatch ? 'hash mismatch: bytes do not match the CID, not shown' : `could not fetch: ${error}`),
       item.piece !== undefined && h('p', { style: { margin: 0, opacity: 0.7 } }, 'Filecoin piece (CommP); verified preview not supported'),
       item.piece === undefined && !error && !meta && h('p', { style: { margin: 0, opacity: 0.7 } }, visible ? 'fetching…' : ''),
-      meta && body(h, meta, preview, bytes),
+      meta && body(h, meta, preview, bytes, setChild),
+      child && h(Card, { item: childItem, open }),
     );
   };
 }
 
-function body(h: typeof ReactNs.createElement, meta: Resolved, preview: Preview | undefined, bytes: Uint8Array | undefined) {
+function body(h: typeof ReactNs.createElement, meta: Resolved, preview: Preview | undefined, bytes: Uint8Array | undefined, pick: (name: string) => void) {
   if (meta.kind === 'directory') {
     if (meta.sharded) return h('p', { style: { margin: 0 } }, 'sharded directory: open in gateway to browse');
     return h('ul', { style: { margin: 0, paddingLeft: '1.2em', ...mono } },
-      meta.entries.map((e) => h('li', { key: e.name }, `${e.name}  ${human(e.size)}`)));
+      meta.entries.map((e) => h('li', { key: e.name }, h('a', { href: '#', onClick: (ev: ReactNs.MouseEvent) => { ev.preventDefault(); pick(e.name); } }, e.name), `  ${human(e.size)}`)));
   }
   if (meta.kind === 'object') return h('p', { style: { margin: 0 } }, 'IPLD object (not UnixFS)');
   if (meta.size > PREVIEW_MAX) return h('p', { style: { margin: 0 } }, 'larger than the 4 MiB preview cap, download to view');

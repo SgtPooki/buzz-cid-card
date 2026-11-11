@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { fetchFirst, readCar, verifyBlock } from '../src/fetch.js';
+import { fetchCarUrl, fetchFirst, readCar, verifyBlock } from '../src/fetch.js';
 import { car, rawBlock } from './fixture.js';
 
 describe('verifyBlock / readCar', () => {
@@ -33,5 +33,22 @@ describe('fetchFirst', () => {
   it('surfaces the last failure when every gateway fails', async () => {
     const request = async () => ({ status: 404, body: new Uint8Array() });
     await expect(fetchFirst(request, '/ipfs/x', 10, ['https://a', 'https://b'])).rejects.toThrow('https://b: HTTP 404');
+  });
+});
+
+describe('fetchCarUrl', () => {
+  it('loads verified blocks from a CAR at a URL once, and rejects a tampered CAR', async () => {
+    const good = await rawBlock(new TextEncoder().encode('sealed'));
+    const bytes = await car([good]);
+    const request = vi.fn(async () => ({ status: 200, body: bytes }));
+    const url = 'https://calib.ezpdpz.net/public/bafkzcibtest';
+    const a = await fetchCarUrl(request, url, good.cid);
+    const b = await fetchCarUrl(request, url, good.cid);
+    expect(a).toBe(b);
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(a.get(good.cid.toString())).toEqual(good.bytes);
+    const bad = new Uint8Array(bytes);
+    bad[bad.length - 1] ^= 1;
+    await expect(fetchCarUrl(async () => ({ status: 200, body: bad }), url + '2', good.cid)).rejects.toThrow('hash mismatch');
   });
 });

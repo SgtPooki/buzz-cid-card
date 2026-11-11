@@ -46,3 +46,18 @@ export async function fetchCar(request: RequestBytes, root: CID, path: string, s
   const { bytes, gateway } = await fetchFirst(request, `/ipfs/${root}${path}?format=car&dag-scope=${scope}`, maxBytes, gateways);
   return { blocks: await readCar(bytes, root), gateway };
 }
+
+const cars = new Map<string, Promise<Blocks>>();
+// One CAR at a URL (a Filecoin piece) holds every block for its root; fetched once, every block verified.
+export function fetchCarUrl(request: RequestBytes, url: string, root: CID): Promise<Blocks> {
+  let p = cars.get(url);
+  if (!p) {
+    p = request({ url, maxBytes: MAX_BYTES, timeoutMs: 30000 }).then((res) => {
+      if (res.status !== 200) throw new Error(`${url}: HTTP ${res.status}`);
+      return readCar(res.body, root);
+    });
+    p.catch(() => cars.delete(url));
+    cars.set(url, p);
+  }
+  return p;
+}
