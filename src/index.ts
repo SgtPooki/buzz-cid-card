@@ -8,7 +8,7 @@ export function apply(ctx: Context) {
   const React = ctx.react;
   const request = ctx.host.requestBytes;
   if (!request) throw new Error('host.requestBytes unavailable (desktop only)');
-  const Card = makeCard(React, (input) => request.call(ctx.host, input));
+  const Card = makeCard(React, (input) => request.call(ctx.host, input), (input) => ctx.host.request(input));
 
   ctx.conversation.registerLink({
     id: 'ipfs-link',

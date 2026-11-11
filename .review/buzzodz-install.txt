@@ -1,4 +1,6 @@
 Installed sgtpooki.buzz-cid-card (enabled) in profile default. Publisher: unsigned
 Enabled sgtpooki.buzz-cid-card in profile default.
+Disabled sgtpooki.buzz-cid-card in profile default.
+Enabled sgtpooki.buzz-cid-card in profile default.
 sgtpooki.buzz-cid-card   enabled    external   CID card
   Publisher: unsigned

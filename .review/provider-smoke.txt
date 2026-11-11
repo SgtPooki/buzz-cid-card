@@ -1,0 +1,2 @@
+sources https://mainnet-pdp.infrafolio.com https://a-fil-http.aur.lu https://109.150.215.145:8443 https://caliberation-pdp.infrafolio.com https://p-fil-http.aur.lu https://main.ezpdpz.net https://f010479.twinquasar.io https://calib2.ezpdpz.net https://trustless-gateway.link https://ipfs.io https://dweb.link
+https://mainnet-pdp.infrafolio.com {"kind":"file","cid":"[object Object]","size":119762}

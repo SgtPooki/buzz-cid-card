@@ -28,7 +28,7 @@ function describe(entry: UnixFSEntry): Resolved {
   if (entry.type === 'directory') {
     const sharded = entry.unixfs.type === 'hamt-sharded-directory';
     const entries = sharded ? [] : entry.node.Links.map((l) => ({ name: l.Name ?? '', size: l.Tsize ?? 0 }));
-    return { kind: 'directory', cid: entry.cid, size, entries, sharded };
+    return { kind: 'directory', cid: entry.cid, size: entries.reduce((n, e) => n + e.size, 0), entries, sharded };
   }
   if (entry.type === 'file' || entry.type === 'raw' || entry.type === 'identity') return { kind: 'file', cid: entry.cid, size };
   return { kind: 'object', cid: entry.cid, size };

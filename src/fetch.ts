@@ -42,7 +42,7 @@ export async function readCar(car: Uint8Array, root: CID): Promise<Blocks> {
   return blocks;
 }
 
-export async function fetchCar(request: RequestBytes, root: CID, path: string, scope: 'block' | 'entity', maxBytes: number) {
-  const { bytes, gateway } = await fetchFirst(request, `/ipfs/${root}${path}?format=car&dag-scope=${scope}`, maxBytes);
+export async function fetchCar(request: RequestBytes, root: CID, path: string, scope: 'block' | 'entity', maxBytes: number, gateways = GATEWAYS) {
+  const { bytes, gateway } = await fetchFirst(request, `/ipfs/${root}${path}?format=car&dag-scope=${scope}`, maxBytes, gateways);
   return { blocks: await readCar(bytes, root), gateway };
 }

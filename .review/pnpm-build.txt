@@ -7,10 +7,10 @@
 Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
 vite v8.3.8 building client environment for production...
 transforming...
-✓ 198 modules transformed.
+✓ 199 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/manifest.json    0.42 kB │ gzip:  0.26 kB
-dist/plugin.js      213.30 kB │ gzip: 57.46 kB
+dist/manifest.json    0.51 kB │ gzip:  0.30 kB
+dist/plugin.js      215.11 kB │ gzip: 58.16 kB
 
-✓ built in 50ms
+✓ built in 46ms

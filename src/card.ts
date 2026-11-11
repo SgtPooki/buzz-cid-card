@@ -2,6 +2,7 @@ import type * as ReactNs from 'react';
 import type { CidRef } from './detect.js';
 import { GATEWAYS, MAX_BYTES, fetchCar, type RequestBytes } from './fetch.js';
 import { fileBytes, resolve, sniff, type Preview, type Resolved } from './content.js';
+import { findProviders, type RequestText } from './routing.js';
 
 export const PREVIEW_MAX = 4 * 1024 * 1024;
 const row = { display: 'flex', gap: 'var(--space-2)', alignItems: 'center', flexWrap: 'wrap' as const };
@@ -28,7 +29,7 @@ function download(bytes: Uint8Array, name: string) {
 
 type Props = { item: CidRef; open?: (url: string) => boolean };
 
-export function makeCard(React: typeof ReactNs, request: RequestBytes): ReactNs.ComponentType<Props> {
+export function makeCard(React: typeof ReactNs, request: RequestBytes, routing: RequestText): ReactNs.ComponentType<Props> {
   const h = React.createElement;
   return function Card({ item, open }: Props) {
     const { cid, path } = item;
@@ -48,17 +49,21 @@ export function makeCard(React: typeof ReactNs, request: RequestBytes): ReactNs.
       return () => io.disconnect();
     }, []);
 
+    // Content providers from delegated routing first, declared public gateways as fallback.
+    const sources = React.useRef<string[]>(GATEWAYS);
     React.useEffect(() => {
-      if (!visible) return;
+      if (!visible || item.piece !== undefined) return;
       let live = true;
       (async () => {
-        const head = await fetchCar(request, cid, path, 'block', 1024 * 1024);
+        sources.current = [...await findProviders(routing, cid), ...GATEWAYS];
+        const head = await fetchCar(request, cid, path, 'block', 1024 * 1024, sources.current);
         const resolved = await resolve(head.blocks, cid, path);
         if (!live) return;
         setMeta(resolved);
         setGateway(head.gateway);
+        sources.current = [head.gateway, ...sources.current.filter((s) => s !== head.gateway)];
         if (resolved.kind !== 'file' || resolved.size > PREVIEW_MAX) return;
-        const full = await fetchCar(request, cid, path, 'entity', carCap(resolved.size));
+        const full = await fetchCar(request, cid, path, 'entity', carCap(resolved.size), sources.current);
         const data = await fileBytes(full.blocks, cid, path);
         if (!live) return;
         setBytes(data);
@@ -68,11 +73,11 @@ export function makeCard(React: typeof ReactNs, request: RequestBytes): ReactNs.
     }, [visible]);
 
     const name = path ? path.split('/').pop()! : cid.toString();
-    const gwUrl = `${gateway || GATEWAYS[0]}/ipfs/${cid}${path}`;
+    const gwUrl = item.piece !== undefined ? item.piece : `${gateway || GATEWAYS[0]}/ipfs/${cid}${path}`;
     const copy = () => navigator.clipboard.writeText(cid.toString()).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1500); });
     const save = async () => {
       if (bytes) return download(bytes, name);
-      const full = await fetchCar(request, cid, path, 'entity', MAX_BYTES);
+      const full = await fetchCar(request, cid, path, 'entity', MAX_BYTES, sources.current);
       download(await fileBytes(full.blocks, cid, path), name);
     };
     const openGw = (e: ReactNs.MouseEvent) => { if (open?.(gwUrl)) e.preventDefault(); };
@@ -86,11 +91,12 @@ export function makeCard(React: typeof ReactNs, request: RequestBytes): ReactNs.
         meta && h('span', { style: { color: 'var(--color-success, green)' }, title: 'every block hashed locally and matched its CID' }, '✓ verified'),
         meta && h('span', null, human(meta.size)),
         gateway && h('span', { style: { opacity: 0.7 } }, `via ${new URL(gateway).host}`),
-        h('a', { href: gwUrl, target: '_blank', rel: 'noreferrer', onClick: openGw }, 'open'),
+        gwUrl && h('a', { href: gwUrl, target: '_blank', rel: 'noreferrer', onClick: openGw }, 'open'),
         canSave && h('button', { type: 'button', onClick: () => save().catch((e) => setError(String(e.message ?? e))) }, 'download'),
       ),
       error && h('p', { role: 'alert', style: { margin: 0, color: 'var(--color-danger, red)' } }, mismatch ? 'hash mismatch: bytes do not match the CID, not shown' : `could not fetch: ${error}`),
-      !error && !meta && h('p', { style: { margin: 0, opacity: 0.7 } }, visible ? 'fetching…' : ''),
+      item.piece !== undefined && h('p', { style: { margin: 0, opacity: 0.7 } }, 'Filecoin piece (CommP); verified preview not supported'),
+      item.piece === undefined && !error && !meta && h('p', { style: { margin: 0, opacity: 0.7 } }, visible ? 'fetching…' : ''),
       meta && body(h, meta, preview, bytes),
     );
   };

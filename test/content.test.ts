@@ -16,7 +16,8 @@ describe('unixfs', () => {
     const file = await fileBlocks(chunks);
     const blocks = await dirBlocks({ 'readme.txt': file });
     const store = await readCar(await car(blocks), blocks[0].cid);
-    expect(await resolve(store, blocks[0].cid, '')).toMatchObject({ kind: 'directory', entries: [{ name: 'readme.txt', size: concat(file.map((b) => b.bytes)).length }] });
+    const size = concat(file.map((b) => b.bytes)).length;
+    expect(await resolve(store, blocks[0].cid, '')).toMatchObject({ kind: 'directory', size, entries: [{ name: 'readme.txt', size }] });
     expect(await resolve(store, blocks[0].cid, '/readme.txt')).toMatchObject({ kind: 'file', cid: file[0].cid, size: 31 });
   });
   it('fails on a missing block instead of guessing', async () => {

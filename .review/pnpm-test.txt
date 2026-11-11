@@ -9,8 +9,8 @@ Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
  RUN  v4.1.12 /Users/sgtpooki/code/work/filoz/buzz-cid-card
 
 
- Test Files  3 passed (3)
-      Tests  28 passed (28)
-   Start at  15:49:07
-   Duration  270ms (transform 81ms, setup 0ms, import 278ms, tests 26ms, environment 0ms)
+ Test Files  4 passed (4)
+      Tests  42 passed (42)
+   Start at  16:21:51
+   Duration  218ms (transform 113ms, setup 0ms, import 261ms, tests 29ms, environment 0ms)
 
