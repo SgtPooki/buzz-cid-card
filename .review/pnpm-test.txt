@@ -2,15 +2,15 @@
 > sgtpooki.buzz-cid-card@ test /Users/sgtpooki/code/work/filoz/buzz-cid-card
 > vitest run
 
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - JSON import "./manifest.json" without import attributes (vite.config.ts:2:22). Add `with { type: 'json' }`
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
 
- RUN  v3.2.7 /Users/sgtpooki/code/work/filoz/buzz-cid-card
+ RUN  v4.1.12 /Users/sgtpooki/code/work/filoz/buzz-cid-card
 
- ✓ test/detect.test.ts (16 tests) 4ms
- ✓ test/fetch.test.ts (4 tests) 6ms
- ✓ test/content.test.ts (7 tests) 12ms
 
  Test Files  3 passed (3)
       Tests  27 passed (27)
-   Start at  22:20:50
-   Duration  346ms (transform 63ms, setup 0ms, collect 204ms, tests 22ms, environment 0ms, prepare 120ms)
+   Start at  22:42:35
+   Duration  202ms (transform 71ms, setup 0ms, import 196ms, tests 22ms, environment 0ms)
 
