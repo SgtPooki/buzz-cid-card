@@ -1,0 +1,5 @@
+piece https://calib.ezpdpz.net/public/bafkzcibd4qeqovohe3xhi64gdmc42cerqil6fv5le3oibdk5gk7dksh3irhd5dqn status 200 bytes 2812 root bafybeicml2bqajdx6w6jdlqherpgxs56u4xgscfuwug5xludfhdthremim
+blocks verified: 3
+{"kind":"directory","cid":"[object Object]","size":2519,"entries":[{"name":"events.ndjson","size":1806},{"name":"manifest.json","size":713}],"sharded":false}
+  events.ndjson file 1806 text "{\"id\":\"ee222de291b3b2541a6d36557a57e6a53553900e2d00480000271b75a9cd60c9\",\"pubkey\":\"50e530d7f594e9059f977cf073ec4330427386476c3c266ee7d93c407fa06791\",\"created_at"
+  manifest.json file 713 json "{\n  \"version\": 1,\n  \"scope\": \"agent-turn\",\n  \"agent\": \"2d818e6c2d687016cc722738df0b1a71be108a3018323c96fbf807006f359330\",\n  \"channelId\": \"28009c0e-8c18-45a2-966"
