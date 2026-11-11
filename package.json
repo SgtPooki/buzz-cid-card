@@ -20,7 +20,7 @@
     "@types/react": "19.2.18",
     "ipfs-unixfs": "^11.2.5",
     "typescript": "7.0.2",
-    "vite": "8.2.2",
+    "vite": "8.2.4",
     "vitest": "^3.2.7"
   }
 }
