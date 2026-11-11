@@ -1,0 +1,26 @@
+
+ RUN  v3.2.7 /Users/sgtpooki/code/work/filoz/buzz-cid-card
+
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/smoke.live.test.ts [ test/smoke.live.test.ts ]
+Error: https://dweb.link: HTTP 521
+ ❯ fetchFirst src/fetch.ts:19:15
+     17|       const res = await request({ url: gateway + path, maxBytes, timeo…
+     18|       if (res.status === 200) return { bytes: res.body, gateway };
+     19|       error = new Error(`${gateway}: HTTP ${res.status}`);
+       |               ^
+     20|     } catch (e) {
+     21|       error = e;
+ ❯ fetchCar src/fetch.ts:46:30
+ ❯ test/smoke.live.test.ts:10:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  22:21:21
+   Duration  40.04s (transform 25ms, setup 0ms, collect 0ms, tests 0ms, environment 0ms, prepare 36ms)
+

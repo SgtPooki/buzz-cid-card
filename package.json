@@ -1,0 +1,26 @@
+{
+  "name": "sgtpooki.buzz-cid-card",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "tsc && vite build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@ipld/car": "^5.4.7",
+    "ipfs-unixfs-exporter": "^13.7.3",
+    "multiformats": "^13.4.2"
+  },
+  "devDependencies": {
+    "@buzz/author": "file:vendor/buzz-author-0.0.0-preview.1.tgz",
+    "@ipld/dag-pb": "^4.2.0",
+    "@types/react": "19.2.18",
+    "ipfs-unixfs": "^11.2.5",
+    "typescript": "7.0.2",
+    "vite": "8.2.2",
+    "vitest": "^3.2.7"
+  }
+}

@@ -1,0 +1,16 @@
+
+> sgtpooki.buzz-cid-card@ build /Users/sgtpooki/code/work/filoz/buzz-cid-card
+> tsc && vite build
+
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - JSON import "./manifest.json" without import attributes (vite.config.ts:2:22). Add `with { type: 'json' }`
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 198 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/manifest.json    0.42 kB │ gzip:  0.26 kB
+dist/plugin.js      213.35 kB │ gzip: 57.50 kB
+
+✓ built in 41ms

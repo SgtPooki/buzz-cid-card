@@ -1,0 +1,10 @@
+{
+  "id": "sgtpooki.buzz-cid-card",
+  "name": "CID card",
+  "apiVersion": 1,
+  "description": "Renders IPFS CIDs and gateway links as locally verified content cards.",
+  "discovery": { "category": "communication", "tags": ["ipfs", "filecoin", "cid"] },
+  "host": {
+    "networkOrigins": ["https://trustless-gateway.link", "https://ipfs.io", "https://dweb.link"]
+  }
+}
