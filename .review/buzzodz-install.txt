@@ -1,46 +1,4 @@
-Installed sgtpooki.buzz-cid-card (disabled) in profile default. Publisher: unsigned
-exit=0
+Installed sgtpooki.buzz-cid-card (enabled) in profile default. Publisher: unsigned
 Enabled sgtpooki.buzz-cid-card in profile default.
-enable exit=0
-Profile: default
-Directory: /Users/sgtpooki/Library/Application Support/xyz.block.buzz.desktop/profiles/default
-
-buzz.mesh-compute        disabled   bundled    Shared compute
-buzz.huddles             enabled    bundled    Huddles
-block.builderlab         enabled    bundled    Builderlab
-buzz.pairing             enabled    bundled    Pair mobile
-buzz.todos               disabled   bundled    Todos
-buzz.diffs               enabled    bundled    Diff viewer
-buzz.mermaid             enabled    bundled    Mermaid diagrams
-buzz.identity-naming     enabled    bundled    Identity Naming
-buzz.agent-activity      enabled    bundled    Agent Activity
-buzz.terminal            enabled    bundled    Terminal
-buzz.profiles            enabled    bundled    Profiles
-buzz.links               enabled    bundled    Links
-buzz.voice-notes         enabled    bundled    Voice Notes
-buzz.channels            enabled    bundled    Channels
-buzz.github              enabled    bundled    GitHub
-buzz.inbox               enabled    bundled    Activity
-buzz.drafts-and-sent     disabled   bundled    Drafts & sent
-buzz.reminders           disabled   bundled    Reminders
-buzz.bestie              enabled    bundled    Bestie
-buzz.usage               disabled   bundled    Usage
-buzz.repos               enabled    bundled    Repositories
-buzz.agents              enabled    bundled    Agents
-buzz.watching            enabled    bundled    Attention
-buzz.claude-code         enabled    bundled    Claude
-buzz.codex               enabled    bundled    Codex
-buzz.goose               enabled    bundled    Goose
-buzz.pi                  disabled   bundled    Pi
-buzz.workflows           disabled   bundled    Workflows
-buzz.feedback            enabled    bundled    Feedback
-buzz.moderation          enabled    bundled    Membership
-buzz.relay-staff         enabled    bundled    Moderation
-buzz.relay-notes         disabled   bundled    Notes reader
-buzz.typesafe            enabled    bundled    TypeSafe
-buzz.plugin-development  enabled    bundled    Plugin development
-buzz.focus               disabled   bundled    Focus
 sgtpooki.buzz-cid-card   enabled    external   CID card
-  Publisher: unsigned
-sgtpooki.buzz-vault      enabled    external   Buzz Vault
   Publisher: unsigned
