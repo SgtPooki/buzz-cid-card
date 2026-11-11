@@ -13,4 +13,4 @@ computing gzip size...
 dist/manifest.json    0.51 kB │ gzip:  0.30 kB
 dist/plugin.js      215.90 kB │ gzip: 58.45 kB
 
-✓ built in 47ms
+✓ built in 42ms

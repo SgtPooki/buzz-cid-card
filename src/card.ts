@@ -53,7 +53,7 @@ export function makeCard(React: typeof ReactNs, request: RequestBytes, routing: 
     // Content providers from delegated routing first, declared public gateways as fallback.
     const sources = React.useRef<string[]>(GATEWAYS);
     const car = item.car;
-    const fromCar = async (): Promise<Source> => ({ blocks: await fetchCarUrl(request, car!, cid), gateway: new URL(car!).host });
+    const fromCar = async (): Promise<Source> => ({ blocks: await fetchCarUrl(request, car!, cid), gateway: new URL(car!).origin });
     React.useEffect(() => {
       if (!visible || item.piece !== undefined) return;
       let live = true;

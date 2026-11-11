@@ -1,6 +1,26 @@
 Installed sgtpooki.buzz-cid-card (enabled) in profile default. Publisher: unsigned
-Enabled sgtpooki.buzz-cid-card in profile default.
-Disabled sgtpooki.buzz-cid-card in profile default.
-Enabled sgtpooki.buzz-cid-card in profile default.
+Previous host access: {
+  "commands": [],
+  "networkOrigins": [
+    "https://delegated-ipfs.dev",
+    "https://cid.contact",
+    "https://trustless-gateway.link",
+    "https://ipfs.io",
+    "https://dweb.link"
+  ],
+  "dynamicUploads": true
+}
+Updated host access: {
+  "commands": [],
+  "networkOrigins": [
+    "https://delegated-ipfs.dev",
+    "https://cid.contact",
+    "https://trustless-gateway.link",
+    "https://ipfs.io",
+    "https://dweb.link"
+  ],
+  "dynamicUploads": true
+}
+Reloaded sgtpooki.buzz-cid-card in profile default. The running app picks up changed builds automatically.
 sgtpooki.buzz-cid-card   enabled    external   CID card
   Publisher: unsigned

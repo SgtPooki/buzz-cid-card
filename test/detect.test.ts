@@ -32,6 +32,13 @@ describe('findCids', () => {
     expect(refs.map((r) => [r.key, r.car])).toEqual([[BAFY, `https://calib.ezpdpz.net/public/${PIECE}`]]);
     expect(findCids(`just ${BAFY}`)[0].car).toBeUndefined();
   });
+  it('reads a real seal card: viewer link, backticked ellipsis fragment, seal line', () => {
+    const root = 'bafybeib43l2bzxoqpfo3zwxofvwxfq3twfc4w7lasgjmgezvlt5jhlmpp4';
+    const piece = 'bafkzcibd5adqpojcbl5wy7hf7ihanxnudtorfyfojpcjsnxyhwfwu2sskrjuvxbv';
+    const text = `**Scribe finished** · 2 signed messages verified · saved on Filecoin Calibration, data set 52644 · 2 copies\n[Open result](https://sgtpooki.github.io/buzz-vault/viewer.html?piece=${piece}&src=https%3A%2F%2Fcalib.ezpdpz.net%2Fpublic%2F${piece}) · piece \`bafkzcibd5ad…juvxbv\`\n${root} https://calib.ezpdpz.net/public/${piece}`;
+    const url = `https://calib.ezpdpz.net/public/${piece}`;
+    expect(findCids(text).map((r) => [r.key, r.car, r.piece])).toEqual([[piece, undefined, url], [root, url, undefined]]);
+  });
   it('keeps the CID as a decoded object', () => {
     expect(findCids(QM)[0].cid.version).toBe(0);
   });
